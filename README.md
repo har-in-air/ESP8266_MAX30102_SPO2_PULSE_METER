@@ -22,7 +22,7 @@ This is a mashup of code from the following projects :
 * ESP8266 AP & Webpage server code from [Random Nerd tutorials](https://randomnerdtutorials.com/esp8266-nodemcu-access-point-ap-web-server/)
 
 ## Usage
-* Connect to the WiFi Access Point SPO2-Pulse. There is no password, but you can define one if you like.
+* Connect to the WiFi Access Point "SPO2-Pulse". There is no password, but you can define one if you like.
 * Open the url 192.168.4.1 in your web browser
 * A new measurement is displayed every 4 seconds
 * If the measurement fails (finger not present, disturbed while reading), the value will display as 0
