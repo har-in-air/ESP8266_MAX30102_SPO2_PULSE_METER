@@ -24,5 +24,7 @@ This is a mashup of code from the following projects :
 * Open the url 192.168.4.1 in your web browser
 * A new measurement is displayed every 4 seconds
 * If the measurement fails (finger not present, disturbed while reading), the value will display as 0
+* If unable to detect the MAX30102 sensor, the board built-in LED will blink rapidly. Try cycling power to the board.
+* In normal operation, the board built-in LED will toggle every 4-second measurement cycle
 
 <img src="Screenshot.jpeg"/>
