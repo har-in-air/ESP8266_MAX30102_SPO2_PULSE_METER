@@ -11,12 +11,7 @@
 
 #pragma once
 
-#if (ARDUINO >= 100)
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
-
+#include "Arduino.h"
 #include <Wire.h>
 
 #define MAX30105_ADDRESS          0x57 //7-bit I2C Address
@@ -25,23 +20,7 @@
 #define I2C_SPEED_STANDARD        100000
 #define I2C_SPEED_FAST            400000
 
-//Define the size of the I2C buffer based on the platform the user has
-#if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__)
-
-  //I2C_BUFFER_LENGTH is defined in Wire.H
-  #define I2C_BUFFER_LENGTH BUFFER_LENGTH
-
-#elif defined(__SAMD21G18A__)
-
-  //SAMD21 uses RingBuffer.h
-  #define I2C_BUFFER_LENGTH SERIAL_BUFFER_SIZE
-
-#else
-
-  //The catch-all default is 32
-  #define I2C_BUFFER_LENGTH 32
-
-#endif
+#define I2C_BUFFER_LENGTH         BUFFER_LENGTH // HN : defined in Wire.h, 128 for ESP8266
 
 class MAX30105 {
  public: 
