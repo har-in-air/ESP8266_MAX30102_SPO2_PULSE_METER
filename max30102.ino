@@ -52,17 +52,20 @@ const char index_html[] PROGMEM = R"rawliteral(
      margin: 0px;
      text-align: left;
     }
-  table, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-    }    
+    td {
+      padding: 5px;
+      }
+    table {
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid black;
+      border-collapse: collapse;
+      }    
     body {
       margin:0;
       padding:0;
       font-size: 2.5rem;
       }
-    h2 { font-size: 3.0rem; }
-    p { font-size: 2.5rem; }
   </style>
 </head>
 <body>
