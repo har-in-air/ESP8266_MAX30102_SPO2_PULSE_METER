@@ -6,6 +6,7 @@ SPO2 and heart rate measurements are displayed on a browser and updated every 4 
 ## Development Environment
 
 * Wemos D1 Mini board
+* home-brew MAX30102 breakout board (MAX30102 modules are available on AliExpress)
 * Arduino 1.8.12 on Ubuntu 20.04 amdx64
 
 ## Credits
