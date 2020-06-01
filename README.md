@@ -1,6 +1,13 @@
 # ESP8266_MAX30102_SPO2_PULSE_METER
 
-ESP8266 SPO2 and Pulse meter using MAX30102 sensor, tested with Wemos D1 Mini board.
+ESP8266 SPO2 and Pulse meter using MAX30102 sensor.
+
+## Development Environment
+
+* Wemos D1 Mini board
+* Arduino 1.8.12 on Ubuntu 20.04 amdx64
+
+## Credits
 
 This is a mashup of code from the following projects :
 
@@ -8,8 +15,10 @@ This is a mashup of code from the following projects :
 [Sparkfun](https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library)
 
 * SPO2 & pulse rate analysis code (algorithm by  Robert Fraczkiewicz) from 
-[aromring](https://github.com/aromring/MAX30102_by_RF). 
-
-I tweaked RF's implementation to use 50Hz sample rate. 
+[aromring](https://github.com/aromring/MAX30102_by_RF). I tweaked RF's implementation to use 50Hz sample rate. 
 
 * ESP8266 AP & Webserver code from [Random Nerd tutorials](https://randomnerdtutorials.com/esp8266-nodemcu-access-point-ap-web-server/)
+
+## Usage
+* Connect to the WiFi Access Point SPO2-Pulse. There is no password.
+* Open the url 192.168.4.1 in your web browser
