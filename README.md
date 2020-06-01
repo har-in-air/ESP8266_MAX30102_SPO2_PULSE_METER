@@ -1,6 +1,7 @@
 # ESP8266_MAX30102_SPO2_PULSE_METER
 
-ESP8266 SPO2 and Pulse meter using MAX30102 sensor.
+ESP8266 SPO2 and Pulse meter using MAX30102 sensor. The ESP8266 acts as a WiFi Access Point and web page server. 
+SPO2 and heart rate measurements are displayed on a browser and updated every 4 seconds.
 
 ## Development Environment
 
