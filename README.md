@@ -17,7 +17,7 @@ This is a mashup of code from the following projects :
 * SPO2 & pulse rate analysis code by  Robert Fraczkiewicz from 
 [aromring's repository](https://github.com/aromring/MAX30102_by_RF). I tweaked RF's implementation to use 50Hz sample rate. 
 
-* ESP8266 AP & Webserver code from [Random Nerd tutorials](https://randomnerdtutorials.com/esp8266-nodemcu-access-point-ap-web-server/)
+* ESP8266 AP & Webpage server code from [Random Nerd tutorials](https://randomnerdtutorials.com/esp8266-nodemcu-access-point-ap-web-server/)
 
 ## Usage
 * Connect to the WiFi Access Point SPO2-Pulse. There is no password.
