@@ -72,12 +72,12 @@ const char index_html[] PROGMEM = R"rawliteral(
 <table border=1>
   <tr>
     <td>SPO2</td>
-    <td id="spo2">%SPO2%</td>
+    <td id="spo2" align="right">%SPO2%</td>
     <td>&#37;</td>
   </tr>
   <tr>
     <td>Pulse</td>
-    <td id="heartrate">%HEARTRATE%</td>
+    <td id="heartrate" align="right">%HEARTRATE%</td>
     <td>bpm</td>
   </tr>
 </table>
@@ -105,6 +105,7 @@ setInterval(function ( ) {
 }, 4000 ) ;
 </script>
 </html>)rawliteral";
+
 
 
 String processor(const String& var){
@@ -140,10 +141,16 @@ void setup() {
   });
 
   server.begin();
+
+  pinMode(LED_BUILTIN, OUTPUT);
   
   if (sensor.begin(Wire, I2C_SPEED_FAST) == false) {
-    Serial.println("Error: MAX30102 not found");
-    while (1);
+    Serial.println("Error: MAX30102 not found, try cycling power to the board...");
+    // indicate fault by blinking the board LED rapidly
+    while (1){
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+      delay(100);
+      }
     }
   byte ledBrightness = 0x80; //0 = Off,  255=50mA
   byte sampleAverage = 4; // 1, 2, 4, 8, 16, 32
@@ -205,6 +212,8 @@ void loop() {
         if (ch_hr_valid) Serial.print(n_heart_rate); else Serial.print("x");
         Serial.println();
         numSamples = 0;
+        // toggle the board LED. This should happen every ST (= 4) seconds if MAX30102 has been configured correctly
+        digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
         }
     }
   
