@@ -16,7 +16,7 @@ This is a mashup of code from the following projects :
 * MAX30102 sensor initialization and FIFO readout code from 
 [Sparkfun](https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library)
 
-* SPO2 & pulse rate analysis code by  Robert Fraczkiewicz from 
+* SPO2 & pulse rate measurement code by Robert Fraczkiewicz from 
 [aromring's repository](https://github.com/aromring/MAX30102_by_RF). I tweaked RF's implementation to use 50Hz sample rate. 
 
 * ESP8266 AP & Webpage server code from [Random Nerd tutorials](https://randomnerdtutorials.com/esp8266-nodemcu-access-point-ap-web-server/)
