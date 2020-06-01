@@ -7,4 +7,4 @@ This is a mashup of sensor initialization and FIFO readout code from
 and spo2 & pulse rate analysis code (algorithm by  Robert Fraczkiewicz) from 
 [aromring](https://github.com/aromring/MAX30102_by_RF). 
 
-I tweaked the RF code to use 50Hz sample rate. Tested with Wemos D1 Mini board.
+I tweaked the RF algorithm implementation to use 50Hz sample rate. Tested with Wemos D1 Mini board.
