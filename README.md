@@ -22,5 +22,7 @@ This is a mashup of code from the following projects :
 ## Usage
 * Connect to the WiFi Access Point SPO2-Pulse. There is no password.
 * Open the url 192.168.4.1 in your web browser
+* A new measurement is displayed every 4 seconds
+* If the measurement fails (finger not present, disturbed while reading), the value will display as 0
 
 <img src="Screenshot.jpeg"/>
