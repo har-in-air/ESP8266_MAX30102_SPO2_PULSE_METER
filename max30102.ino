@@ -53,31 +53,37 @@ const char index_html[] PROGMEM = R"rawliteral(
      text-align: left;
     }
     td {
-      padding: 5px;
+      color:grey;      
+      padding: 10px;
       }
     table {
+      background-color:black;
+      margin-top : 70px;
       margin-left: auto;
       margin-right: auto;
-      border: 1px solid black;
-      border-collapse: collapse;
       }    
     body {
+      background-color:grey;      
       margin:0;
       padding:0;
+      font-size: 2.0rem;
+      }
+    .field {
       font-size: 2.5rem;
+      color : green;
       }
   </style>
 </head>
 <body>
-<table border=1>
+<table>
   <tr>
     <td>SPO2</td>
-    <td id="spo2" align="right">%SPO2%</td>
+    <td class="field" id="spo2" align="right">%SPO2%</td>
     <td>&#37;</td>
   </tr>
   <tr>
     <td>Pulse</td>
-    <td id="heartrate" align="right">%HEARTRATE%</td>
+    <td class="field" id="heartrate" align="right">%HEARTRATE%</td>
     <td>bpm</td>
   </tr>
 </table>
