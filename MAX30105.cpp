@@ -585,7 +585,7 @@ void MAX30105::nextSample(void)
   }
 }
 
-
+// faster way to convert 3bytes into unsigned int : HN
 typedef union SAMPLE_ {
   uint8_t   b[4];
   uint32_t  u;
@@ -694,7 +694,6 @@ uint16_t MAX30105::check(void)
 #endif      
 #if 1
         //Burst read three more bytes - IR
-        s.b[3] = 0;
         s.b[2] = _i2cPort->read();
         s.b[1] = _i2cPort->read();
         s.b[0] = _i2cPort->read();
@@ -722,7 +721,6 @@ uint16_t MAX30105::check(void)
 #endif
 #if 1
         //Burst read three more bytes - Green
-        s.b[3] = 0;
         s.b[2] = _i2cPort->read();
         s.b[1] = _i2cPort->read();
         s.b[0] = _i2cPort->read();
