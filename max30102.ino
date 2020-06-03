@@ -27,7 +27,7 @@ const char* passwordAP = "";
 AsyncWebServer server(80);
 
 // uncomment for test : measuring actual sample rate, or to display waveform on a serial plotter
-//#define MODE_DEBUG  
+#define MODE_DEBUG  
 
 MAX30105 sensor;
 
@@ -161,17 +161,17 @@ void setup() {
       delay(100);
       }
     }
-    // ref Maxim AN6409, average dc value of signal should be within 0.25 to 0.75 ADC full range
-    // 18bit => full range = 262143. With ledBrightness = 200, I get a dc value > 100000 with index finger.
-    // You should test this as per the app note depending on application : finger, forehead, earlobe etc.
-    // Drawback is more power consumption, but then we're using an ESP8266 with Wifi, so this is not the
-    // biggest current hog.
-  byte ledBrightness = 200; // 0 = off,  255 = 50mA
+    // ref Maxim AN6409, average dc value of signal should be within 0.25 to 0.75 18-bit range (max value = 262143)
+    // You should test this as per the app note depending on application : finger, forehead, earlobe etc. It even
+    // depends on skin tone.
+    // I found that the optimum combination for my index finger was :
+    // ledBrightness=30 and adcRange=2048, to get max dynamic range in the waveform, and a dc level > 100000
+  byte ledBrightness = 30; // 0 = off,  255 = 50mA
   byte sampleAverage = 4; // 1, 2, 4, 8, 16, 32
   byte ledMode = 2; // 1 = Red only, 2 = Red + IR, 3 = Red + IR + Green (MAX30105 only)
   int sampleRate = 200; // 50, 100, 200, 400, 800, 1000, 1600, 3200
   int pulseWidth = 411; // 69, 118, 215, 411
-  int adcRange = 16384; // 2048, 4096, 8192, 16384
+  int adcRange = 2048; // 2048, 4096, 8192, 16384
   
   sensor.setup(ledBrightness, sampleAverage, ledMode, sampleRate, pulseWidth, adcRange); 
   sensor.getINT1(); // clear the status registers by reading
