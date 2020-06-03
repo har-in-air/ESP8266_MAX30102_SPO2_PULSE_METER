@@ -25,8 +25,15 @@ This is a mashup of code from the following projects :
 * Connect to the WiFi Access Point "SPO2-Pulse". There is no password, but you can define one if you like.
 * Open the url 192.168.4.1 in your web browser
 * A new measurement is displayed every 4 seconds
+
+<img src="Screenshot.jpeg"/>
+
 * If the measurement fails (finger not present, disturbed while reading), the value will display as 0
 * If unable to detect the MAX30102 sensor on power-up, the board built-in LED will blink rapidly. Try cycling power to the board.
 * In normal operation, the board built-in LED will toggle every 4-second measurement cycle
+* You can compile the code in debug mode to check the actual sample rate (required for the SPO2/Pulse algorithm), or to
+check the red and ir led waveforms to determine an optimal sensor led current setting.
 
-<img src="Screenshot.jpeg"/>
+<img src="waveform.png"/>
+
+
