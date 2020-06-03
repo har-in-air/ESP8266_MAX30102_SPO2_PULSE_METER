@@ -27,7 +27,7 @@ const char* passwordAP = "";
 AsyncWebServer server(80);
 
 // uncomment for test : measuring actual sample rate, or to display waveform on a serial plotter
-#define MODE_DEBUG  
+//#define MODE_DEBUG  
 
 MAX30105 sensor;
 
