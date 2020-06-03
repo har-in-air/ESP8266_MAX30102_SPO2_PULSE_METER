@@ -31,8 +31,8 @@ This is a mashup of code from the following projects :
 * If the measurement fails (finger not present, disturbed while reading), the value will display as 0
 * If unable to detect the MAX30102 sensor on power-up, the board built-in LED will blink rapidly. Try cycling power to the board.
 * In normal operation, the board built-in LED will toggle every 4-second measurement cycle
-* You can compile the code in debug mode to check the actual sample rate (required for the SPO2/Pulse algorithm), or to
-check the red and ir led waveforms to determine an optimal sensor led current setting.
+* You can compile the code in debug mode to check the actual sample rate (required for the SPO2/Pulse algorithm). Or you
+can display real-time red and ir sensor data on the Arduino Serial Plotter window, to determine an optimal sensor led current setting.
 
 <img src="waveform.png"/>
 
