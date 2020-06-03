@@ -585,6 +585,12 @@ void MAX30105::nextSample(void)
   }
 }
 
+
+typedef union SAMPLE_ {
+  uint8_t   b[4];
+  uint32_t  u;
+} SAMPLE;
+
 //Polls the sensor for new data
 //Call regularly
 //If new data is available, it updates the head and tail in the main struct
@@ -615,9 +621,9 @@ uint16_t MAX30105::check(void)
     _i2cPort->write(MAX30105_FIFODATA);
     _i2cPort->endTransmission();
 
-    //We may need to read as many as 288 bytes so we read in blocks no larger than I2C_BUFFER_LENGTH
-    //I2C_BUFFER_LENGTH changes based on the platform. 64 bytes for SAMD21, 32 bytes for Uno.
-    //Wire.requestFrom() is limited to BUFFER_LENGTH which is 32 on the Uno
+    // We may need to read as many as 288 (192 for max30102) bytes. We read in blocks no larger than I2C_BUFFER_LENGTH
+    // I2C_BUFFER_LENGTH changes based on the platform, defined as BUFFER_LENGTH defined in Wire.h. 
+    // So Wire.requestFrom() is limited to 128 bytes for ESP8266, 64 bytes for SAMD21, 32 bytes for Uno.
     while (bytesLeftToRead > 0)
     {
       int toGet = bytesLeftToRead;
@@ -640,8 +646,10 @@ uint16_t MAX30105::check(void)
         sense.head++; //Advance the head of the storage struct
         sense.head %= STORAGE_SIZE; //Wrap condition
 
+#if 0
         byte temp[sizeof(uint32_t)]; //Array of 4 bytes that we will convert into long
         uint32_t tempLong;
+
 
         //Burst read three bytes - RED
         temp[3] = 0;
@@ -652,12 +660,25 @@ uint16_t MAX30105::check(void)
         //Convert array to long
         memcpy(&tempLong, temp, sizeof(tempLong));
 		
-		tempLong &= 0x3FFFF; //Zero out all but 18 bits
-
+		    tempLong &= 0x3FFFF; //Zero out all but 18 bits
         sense.red[sense.head] = tempLong; //Store this reading into the sense array
+#endif
+#if 1
+        SAMPLE s;
+        //Burst read three bytes - RED
+        s.b[3] = 0;
+        s.b[2] = _i2cPort->read();
+        s.b[1] = _i2cPort->read();
+        s.b[0] = _i2cPort->read();
+
+        s.u &= 0x3FFFF; // keep only lower 18bits
+        sense.red[sense.head] = s.u; //Store this reading into the sense array
+#endif
+
 
         if (activeLEDs > 1)
         {
+#if 0          
           //Burst read three more bytes - IR
           temp[3] = 0;
           temp[2] = _i2cPort->read();
@@ -670,10 +691,22 @@ uint16_t MAX30105::check(void)
 		  tempLong &= 0x3FFFF; //Zero out all but 18 bits
           
 		  sense.IR[sense.head] = tempLong;
+#endif      
+#if 1
+        //Burst read three more bytes - IR
+        s.b[3] = 0;
+        s.b[2] = _i2cPort->read();
+        s.b[1] = _i2cPort->read();
+        s.b[0] = _i2cPort->read();
+
+        s.u &= 0x3FFFF; // keep only lower 18bits
+        sense.IR[sense.head] = s.u; //Store this reading into the sense array
+#endif
         }
 
         if (activeLEDs > 2)
         {
+#if 0
           //Burst read three more bytes - Green
           temp[3] = 0;
           temp[2] = _i2cPort->read();
@@ -686,6 +719,17 @@ uint16_t MAX30105::check(void)
 		  tempLong &= 0x3FFFF; //Zero out all but 18 bits
 
           sense.green[sense.head] = tempLong;
+#endif
+#if 1
+        //Burst read three more bytes - Green
+        s.b[3] = 0;
+        s.b[2] = _i2cPort->read();
+        s.b[1] = _i2cPort->read();
+        s.b[0] = _i2cPort->read();
+
+        s.u &= 0x3FFFF; // keep only lower 18bits
+        sense.green[sense.head] = s.u; //Store this reading into the sense array
+#endif
         }
 
         toGet -= activeLEDs * 3;
