@@ -26,18 +26,18 @@ const char* passwordAP = "";
 
 AsyncWebServer server(80);
 
-
-//#define MODE_MEASURE_SAMPLE_RATE
+// uncomment for test : measuring actual sample rate, or to display waveform on a serial plotter
+//#define MODE_DEBUG  
 
 MAX30105 sensor;
 
 
-#ifdef MODE_MEASURE_SAMPLE_RATE
+#ifdef MODE_DEBUG
 uint32_t startTime;
 #endif
 
-uint32_t  aun_ir_buffer[BUFFER_SIZE]; //infrared LED sensor data
-uint32_t  aun_red_buffer[BUFFER_SIZE];  //red LED sensor data
+uint32_t  aun_ir_buffer[RFA_BUFFER_SIZE]; //infrared LED sensor data
+uint32_t  aun_red_buffer[RFA_BUFFER_SIZE];  //red LED sensor data
 int32_t   n_heart_rate; 
 float     n_spo2;
 int       numSamples;
@@ -130,12 +130,15 @@ void setup() {
   Serial.println();
   Serial.println("SPO2/Pulse meter");
 
+  // ESP8266 tx power output 20.5dBm by default
+  // we can lower this to reduce power supply noise caused by tx bursts
+  WiFi.setOutputPower(12); 
+
   WiFi.softAP(ssidAP, passwordAP); 
   IPAddress IP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
   Serial.println(IP);
      
-  // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", index_html, processor);
     });
@@ -158,7 +161,12 @@ void setup() {
       delay(100);
       }
     }
-  byte ledBrightness = 0x80; //0 = Off,  255=50mA
+    // ref Maxim AN6409, average dc value of signal should be within 0.25 to 0.75 ADC full range
+    // 18bit => full range = 262143. With ledBrightness = 200, I get a dc value > 100000 with index finger.
+    // You should test this as per the app note depending on application : finger, forehead, earlobe etc.
+    // Drawback is more power consumption, but then we're using an ESP8266 with Wifi, so this is not the
+    // biggest current hog.
+  byte ledBrightness = 200; // 0 = off,  255 = 50mA
   byte sampleAverage = 4; // 1, 2, 4, 8, 16, 32
   byte ledMode = 2; // 1 = Red only, 2 = Red + IR, 3 = Red + IR + Green (MAX30105 only)
   int sampleRate = 200; // 50, 100, 200, 400, 800, 1000, 1600, 3200
@@ -170,27 +178,33 @@ void setup() {
   sensor.getINT2();
   numSamples = 0;
 
-#ifdef MODE_MEASURE_SAMPLE_RATE
+#ifdef MODE_DEBUG
   startTime = millis();
 #endif
   }
 
 
-#ifdef MODE_MEASURE_SAMPLE_RATE
-// measure the sample rate FS  (in Hz) to be used by the RF algorithm
+#ifdef MODE_DEBUG
 void loop(){
   sensor.check(); 
 
   while (sensor.available())   {
     numSamples++;
-
-    Serial.print("R[");
-    Serial.print(sensor.getFIFORed());
-    Serial.print("] IR[");
-    Serial.print(sensor.getFIFOIR());
-    Serial.print("] ");
+#if 0 
+    // measure the sample rate FS  (in Hz) to be used by the RF algorithm
+    //Serial.print("R[");
+    //Serial.print(sensor.getFIFORed());
+    //Serial.print("] IR[");
+    //Serial.print(sensor.getFIFOIR());
+    //Serial.print("] ");
     Serial.print((float)numSamples / ((millis() - startTime) / 1000.0), 2);
     Serial.println(" Hz");
+#else 
+    // display waveform on Arduino Serial Plotter window
+    Serial.print(sensor.getFIFORed());
+    Serial.print(" ");
+    Serial.println(sensor.getFIFOIR());
+#endif
     
     sensor.nextSample();
   }
@@ -209,9 +223,9 @@ void loop() {
       aun_ir_buffer[numSamples] = sensor.getFIFOIR();
       numSamples++;
       sensor.nextSample(); 
-      if (numSamples == BUFFER_SIZE) {
-        // calculate heart rate and SpO2 after BUFFER_SIZE samples (ST seconds of samples) using Robert's method
-        rf_heart_rate_and_oxygen_saturation(aun_ir_buffer, BUFFER_SIZE, aun_red_buffer, &n_spo2, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid, &ratio, &correl);     
+      if (numSamples == RFA_BUFFER_SIZE) {
+        // calculate heart rate and SpO2 after RFA_BUFFER_SIZE samples (ST seconds of samples) using Robert's method
+        rf_heart_rate_and_oxygen_saturation(aun_ir_buffer, RFA_BUFFER_SIZE, aun_red_buffer, &n_spo2, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid, &ratio, &correl);     
         Serial.printf("SP02 ");
         if (ch_spo2_valid) Serial.print(n_spo2); else Serial.print("x");
         Serial.print(", Pulse ");
