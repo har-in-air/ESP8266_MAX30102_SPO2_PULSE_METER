@@ -5,9 +5,16 @@ SPO2 and heart rate measurements are displayed on a browser and updated every 4 
 
 ## Development Environment
 
-* Wemos D1 Mini board
+* ESP8266 Wemos D1 Mini board
 * home-brew MAX30102 breakout board (MAX30102 modules are available on AliExpress)
 * Arduino 1.8.12 on Ubuntu 20.04 amdx64
+
+## Prototype
+
+<img_src="sensor_in_glove.jpg">
+
+<img_src="glove_wemos.jpg">
+
 
 ## Credits
 
@@ -22,11 +29,12 @@ This is a mashup of code from the following projects :
 * ESP8266 WiFi Access Point & Webpage server code from [Random Nerd tutorials](https://randomnerdtutorials.com/esp8266-nodemcu-access-point-ap-web-server/)
 
 ## Usage
+
 * Connect to the WiFi Access Point "SPO2-Pulse". There is no password, but you can define one if you like.
 * Open the url 192.168.4.1 in your web browser
 * A new measurement is displayed every 4 seconds
 
-<img src="Screenshot.jpeg"/>
+<img_src="tablet_display.jpg">
 
 * If the measurement fails (finger not present, disturbed while reading), the value will display as 0
 * If unable to detect the MAX30102 sensor on power-up, the board built-in LED will blink rapidly. Try cycling power to the board.
