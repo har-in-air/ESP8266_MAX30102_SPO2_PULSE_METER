@@ -57,8 +57,8 @@ void rf_heart_rate_and_oxygen_saturation(uint32_t *pun_ir_buffer, int32_t n_ir_b
   float f_ir_mean,f_red_mean,f_ir_sumsq,f_red_sumsq;
   float f_y_ac, f_x_ac, xy_ratio;
   float beta_ir, beta_red, x;
-  float an_x[BUFFER_SIZE], *ptr_x; //ir
-  float an_y[BUFFER_SIZE], *ptr_y; //red
+  float an_x[RFA_BUFFER_SIZE], *ptr_x; //ir
+  float an_y[RFA_BUFFER_SIZE], *ptr_y; //red
 
   // calculates DC mean and subtracts DC from ir and red
   f_ir_mean=0.0; 
@@ -96,10 +96,10 @@ void rf_heart_rate_and_oxygen_saturation(uint32_t *pun_ir_buffer, int32_t n_ir_b
     // At the beginning of oximetry run the exact range of heart rate is unknown. This may lead to wrong rate if the next call does not find the _first_
     // peak of the autocorrelation function. E.g., second peak would yield only 50% of the true rate. 
     if(LOWEST_PERIOD==n_last_peak_interval) 
-      rf_initialize_periodicity_search(an_x, BUFFER_SIZE, &n_last_peak_interval, HIGHEST_PERIOD, min_autocorrelation_ratio, f_ir_sumsq);
+      rf_initialize_periodicity_search(an_x, RFA_BUFFER_SIZE, &n_last_peak_interval, HIGHEST_PERIOD, min_autocorrelation_ratio, f_ir_sumsq);
     // RF, If correlation os good, then find average periodicity of the IR signal. If aperiodic, return periodicity of 0
     if(n_last_peak_interval!=0)
-      rf_signal_periodicity(an_x, BUFFER_SIZE, &n_last_peak_interval, LOWEST_PERIOD, HIGHEST_PERIOD, min_autocorrelation_ratio, f_ir_sumsq, ratio);
+      rf_signal_periodicity(an_x, RFA_BUFFER_SIZE, &n_last_peak_interval, LOWEST_PERIOD, HIGHEST_PERIOD, min_autocorrelation_ratio, f_ir_sumsq, ratio);
   } else n_last_peak_interval=0;
 
   // Calculate heart rate if periodicity detector was successful. Otherwise, reset peak interval to its initial value and report error.
@@ -131,7 +131,7 @@ float rf_linear_regression_beta(float *pn_x, float xmean, float sum_x2)
 * \brief        Coefficient beta of linear regression 
 * \par          Details
 *               Compute directional coefficient, beta, of a linear regression of pn_x against mean-centered
-*               point index values (0 to BUFFER_SIZE-1). xmean must equal to (BUFFER_SIZE-1)/2! sum_x2 is 
+*               point index values (0 to RFA_BUFFER_SIZE-1). xmean must equal to (RFA_BUFFER_SIZE-1)/2! sum_x2 is 
 *               the sum of squares of the mean-centered index values. 
 *               Robert Fraczkiewicz, 12/22/2017
 * \retval       Beta
@@ -299,4 +299,3 @@ float rf_Pcorrelation(float *pn_x, float *pn_y, int32_t n_size)
   r/=n_size;
   return r;
 }
-

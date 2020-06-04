@@ -64,11 +64,11 @@ const float min_pearson_correlation = 0.8;
  * Do not touch these! 
  * 
  */
-const int32_t BUFFER_SIZE = FS*ST; // Number of smaples in a single batch
+const int32_t RFA_BUFFER_SIZE = FS*ST; // Number of smaples in a single batch
 const int32_t FS60 = FS*60;  // Conversion factor for heart rate from bps to bpm
 const int32_t LOWEST_PERIOD = FS60/MAX_HR; // Minimal distance between peaks
 const int32_t HIGHEST_PERIOD = FS60/MIN_HR; // Maximal distance between peaks
-const float mean_X = (float)(BUFFER_SIZE-1)/2.0; // Mean value of the set of integers from 0 to BUFFER_SIZE-1. For ST=4 and FS=50 it's equal to 99.5.
+const float mean_X = (float)(RFA_BUFFER_SIZE-1)/2.0; // Mean value of the set of integers from 0 to RFA_BUFFER_SIZE-1. For ST=4 and FS=50 it's equal to 99.5.
 
 void rf_heart_rate_and_oxygen_saturation(uint32_t *pun_ir_buffer, int32_t n_ir_buffer_length, uint32_t *pun_red_buffer, float *pn_spo2, int8_t *pch_spo2_valid, int32_t *pn_heart_rate, 
                                         int8_t *pch_hr_valid, float *ratio, float *correl);
