@@ -11,9 +11,9 @@ SPO2 and heart rate measurements are displayed on a browser and updated every 4 
 
 ## Prototype
 
-<img_src="sensor_in_glove.jpg">
+<img src="sensor_in_glove.jpg">
 
-<img_src="glove_wemos.jpg">
+<img src="glove_wemos.jpg">
 
 
 ## Credits
@@ -34,7 +34,7 @@ This is a mashup of code from the following projects :
 * Open the url 192.168.4.1 in your web browser
 * A new measurement is displayed every 4 seconds
 
-<img_src="tablet_display.jpg">
+<img src="tablet_display.jpg">
 
 * If the measurement fails (finger not present, disturbed while reading), the value will display as 0
 * If unable to detect the MAX30102 sensor on power-up, the board built-in LED will blink rapidly. Try cycling power to the board.
